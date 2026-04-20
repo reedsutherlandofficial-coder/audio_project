@@ -1,0 +1,39 @@
+AudioDirectoryApp {
+    background: $boost;
+    height: 5;
+    margin: 1;
+    min-width: 50;
+    padding: 1;
+}
+
+Screen {
+    align: center middle;
+    padding: 1;
+}
+
+#buttons {
+    height: 3;
+    width: auto;
+}
+
+ContentSwitcher {
+    border: round $primary;
+    width: 90%;
+    height: 1fr;
+}
+
+.container {
+    height: auto;
+    width: auto;
+}
+
+Switch {
+    height: auto;
+    width: auto;
+}
+
+.label {
+    height: 3;
+    content-align: center middle;
+    width: auto;
+}
