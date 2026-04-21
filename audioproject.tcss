@@ -2,7 +2,7 @@ AudioDirectoryApp {
     background: $boost;
     height: 5;
     margin: 1;
-    min-width: 50;
+    min-width: 40;
     padding: 1;
 }
 
@@ -11,9 +11,18 @@ Screen {
     padding: 1;
 }
 
+
 #buttons {
-    height: 3;
+    height: auto;
     width: auto;
+    padding: 1;
+}
+
+#pressed_save {
+    height: auto;
+    width: auto;
+    padding: 0;
+    align: right middle;
 }
 
 ContentSwitcher {
@@ -33,7 +42,7 @@ Switch {
 }
 
 .label {
-    height: 3;
+    height: auto;
     content-align: center middle;
     width: auto;
 }
