@@ -1,6 +1,6 @@
 from textual.app import App, ComposeResult
 from textual.containers import Vertical, Horizontal
-from textual.widgets import Button, Header, Footer, Static, ContentSwitcher, DirectoryTree, Collapsible, Switch, Label
+from textual.widgets import Button, Header, Footer, Static, ContentSwitcher, DirectoryTree, Collapsible, Switch, Label, ListItem
 from pathlib import Path
 from typing import Iterable
 
@@ -18,6 +18,16 @@ class AudioDirectoryApp(App):
                 ("d", "toggle_dark", "Toggle Dark Mode"),
                 ]
     
+    def on_directory_tree_file_selected(self, File_Selected) -> None:
+        path_list = []
+        self.path = File_Selected.path
+        path_list.append(self.path)
+        print(path_list)
+
+    #def on_button_pressed(self, event:Button.Pressed) -> None:
+                    #if event.button.id == "pick_file":
+                        #pass
+
     def compose(self) -> ComposeResult:
         yield Header()
         yield Footer()
@@ -36,13 +46,9 @@ class AudioDirectoryApp(App):
                 id="welcome_screen")
             
             with Collapsible(title="Choose A Directory To Load", collapsed=False, id="directory_picker"):
+                yield Button("Pick Directory", id="pick_file")
                 yield FilteredDirectoryTree("~")
-                yield Button("Pick Directory", id="pick_directory")
-
-                def on_file_selected(self) -> None:
-                    pass
-                def on_button_pressed(self, event:Button.Pressed) -> None:
-                    pass
+                
 
             with Label("Choose Audio Format", expand=True, id="file_format"):
 
@@ -79,8 +85,6 @@ class AudioDirectoryApp(App):
 
     def on_mount(self) -> None:
         self.theme = "gruvbox"
-
-        
 
     def action_toggle_dark(self) -> None:
         self.theme = (
