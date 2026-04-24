@@ -4,7 +4,7 @@ from textual.events import Click
 from textual.widgets import Button, Header, Footer, Static, ContentSwitcher, DirectoryTree, Collapsible, Switch, Label, ListItem
 from pathlib import Path
 from typing import Iterable
-from libfunc import Bucket
+from audiofuncs import Audioprocess
 
 class Data():
      inpath = []
@@ -16,10 +16,10 @@ class FilteredDirectoryTree(DirectoryTree):
     def filter_paths(self, paths: Iterable[Path]) -> Iterable[Path]:
         return [path for path in paths if not path.name.startswith(".")]
     
-class Clickablefile(DirectoryTree):
-     def _on_click(self, File_selected, event: Click) -> None:
-          if event.chain == 2:
-               print(File_selected.path, "double clicked file!")
+#class Clickablefile(DirectoryTree):
+     #def _on_click(self, File_selected, event: Click) -> None:
+          #if event.chain == 2:
+               #print(File_selected.path, "double clicked file!")
 
 class AudioDirectoryApp(App):
     CSS_PATH = "audioproject.tcss"
@@ -31,13 +31,13 @@ class AudioDirectoryApp(App):
     def on_directory_tree_file_selected(self, File_Selected) -> None:
         data.inpath.append(File_Selected.path)
         print(data.inpath)
-
-    def on_button_pressed_for_pick_file(self, event:Button.Pressed, File_Selected) -> None:
-                    if event.button.id == "pick_file":
-                        print(data.inpath)
-
+        
+    def on_button_pressed_for_process_button(self, event:Button.Pressed, id="process_button") -> None:
+        Audioprocess(data.inpath).visuals
+            
     def on_button_pressed(self, event: Button.Pressed) -> None:
         self.query_one(ContentSwitcher).current = event.button.id
+        Audioprocess(data.inpath).visuals
 
     def on_mount(self) -> None:
         self.theme = "gruvbox"
@@ -56,8 +56,9 @@ class AudioDirectoryApp(App):
             yield Button("Directory", id="directory_picker")
             yield Button("File Format", id="file_format")
             yield Button("Export", id="export_menu")
+            yield Button("Process", id="process_button")
 
-        with ContentSwitcher(initial="welcome_screen", id="top_switcher"):
+        with ContentSwitcher(initial="welcome_screen"):
             yield Static(
                 "Welcome to the Audio Data Tool, use the top tabs to " \
                 "navitage through each step of picking your files to " \
@@ -66,7 +67,7 @@ class AudioDirectoryApp(App):
             
             with Collapsible(title="Choose A Directory To Load", collapsed=False, id="directory_picker"):
                 yield FilteredDirectoryTree("~")
-
+                
             with Label("Choose Audio Format", expand=True, id="file_format"):
                 yield Horizontal(
                     Static("WAV:    ", classes="label"),
@@ -86,12 +87,9 @@ class AudioDirectoryApp(App):
                     classes="container",
                     id="m4a_switch"
                 )
+            yield Static("Exported", classes="label", id="process_button")
 
-                yield Button("Process", id="process_button")
-                
-                def on_button_pressed_for_process_button(self):
-                     data.outpath = Bucket.fft.data.inpath
-                     
+                #Audioprocess.visuals
                 # have a "process" button, which 
                 # calls librosal with selected audio format and data.path, and use some convert function there 
                 # 
@@ -102,6 +100,7 @@ class AudioDirectoryApp(App):
                 def on_file_selected(self) -> None:
                     pass
                 
+   
 
 if __name__ == "__main__":
     app = AudioDirectoryApp()
