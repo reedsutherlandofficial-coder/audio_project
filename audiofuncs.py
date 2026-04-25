@@ -1,19 +1,24 @@
+import numpy as np
 import librosa
 import soundfile as sf
 import matplotlib.pyplot as plt 
 from pathlib import Path
+
+
+
 class Audioprocess():
     def __init__(self, file_path):
         self.file_paths = file_path
-
-    def visuals(self):
-        for i in self.file_paths:
-            if i == "~":
-                pass
-            y, sr = librosa.load(i)
+        counter = 0
+        for i in range(2 , len(self.file_paths)):
+            audio = self.file_paths[i]
+            y, sr = librosa.load(audio)
             plt.figure()
-            f = librosa.display.specshow(librosa.feature.chroma_stft(y=y, sr=sr), y_axis='chroma', x_axis='time')
-            plt.savefig('chroma.png')
+            M_highres = librosa.feature.melspectrogram(y=y, hop_length=512)
+
+            f = librosa.display.specshow(librosa.power_to_db(M_highres, ref=np.max),y_axis='mel', x_axis='time')
+            plt.savefig(f"chroma{counter}.png")
+            counter += 1
 
 
 
