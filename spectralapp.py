@@ -1,8 +1,7 @@
 from textual import on
 from textual.app import App, ComposeResult
-from textual.containers import Vertical, Horizontal, Container
-from textual.events import Click
-from textual.widgets import Button, Header, Footer, Static, ContentSwitcher, DirectoryTree, Collapsible, Switch, Label, ListItem
+from textual.containers import Horizontal, Container
+from textual.widgets import Button, Header, Footer, DirectoryTree
 from pathlib import Path
 from typing import Iterable
 from audiofuncs import Audioprocess
@@ -60,9 +59,6 @@ class Spectralapp(App):
                         ,id="button_container"
         )
 
-        
-                
-                
 if __name__ == "__main__":
     app = Spectralapp()
     app.run()
